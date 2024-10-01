@@ -1,4 +1,4 @@
-package hhplus.lecture.controller.request;
+package hhplus.lecture.api.controller.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

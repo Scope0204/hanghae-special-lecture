@@ -1,8 +1,8 @@
-package hhplus.lecture.controller;
+package hhplus.lecture.api.controller;
 
 import hhplus.lecture.application.facade.LectureApplyFacade;
-import hhplus.lecture.controller.request.LectureApplyRequest;
-import hhplus.lecture.controller.response.LectureApplyResponse;
+import hhplus.lecture.api.controller.request.LectureApplyRequest;
+import hhplus.lecture.api.controller.response.LectureApplyResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
