@@ -14,11 +14,11 @@ public class LectureApplyControllerAdvice  extends ResponseEntityExceptionHandle
     @ExceptionHandler(value = UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse("400", "유저 정보를 찾을 수 없습니다."));
+                .body(new ErrorResponse("400", e.getMessage()));
     }
     @ExceptionHandler(value = LectureException.class)
     public ResponseEntity<ErrorResponse> handleLectureException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse("400", "특강 정보를 찾을 수 없습니다."));
+                .body(new ErrorResponse("400", e.getMessage()));
     }
 }
