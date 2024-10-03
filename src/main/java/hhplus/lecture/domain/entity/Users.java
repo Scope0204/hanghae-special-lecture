@@ -1,5 +1,6 @@
 package hhplus.lecture.domain.entity;
 
+import hhplus.lecture.domain.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,5 +22,15 @@ public class Users {
     public Users(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public static UserDto toDto(Users user){
+        return new UserDto(
+                user.getId(),
+                user.getName()
+        );
+    }
+    public static Users fromDto(UserDto dto) {
+        return new Users(dto.userId(), dto.name());
     }
 }

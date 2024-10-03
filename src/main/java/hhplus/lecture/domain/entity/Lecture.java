@@ -1,5 +1,6 @@
 package hhplus.lecture.domain.entity;
 
+import hhplus.lecture.domain.dto.LectureDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,6 +27,18 @@ public class Lecture {
         this.id = id;
         this.title = title;
         this.lecturer = lecturer;
+    }
+
+    public static LectureDto toDto(Lecture lecture) {
+        return new LectureDto(
+                lecture.getId(),
+                lecture.getTitle(),
+                lecture.getLecturer()
+        );
+    }
+
+    public static Lecture fromDto(LectureDto dto) {
+        return new Lecture(dto.lectureId(), dto.title(), dto.lecturer());
     }
 }
 
