@@ -27,6 +27,11 @@ public class ApplyHistoryRepositoryImpl implements ApplyHistoryRepository {
     }
 
     @Override
+    public List<ApplyHistory> findAll() {
+        return jpaApplyHistoryRepository.findAll();
+    }
+
+    @Override
     public ApplyHistory save(ApplyHistory applyHistory) {
         return jpaApplyHistoryRepository.save(applyHistory);
     }

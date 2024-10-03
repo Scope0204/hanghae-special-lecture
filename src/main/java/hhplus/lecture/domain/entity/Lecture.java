@@ -28,6 +28,10 @@ public class Lecture {
         this.title = title;
         this.lecturer = lecturer;
     }
+    public Lecture(String title, String lecturer) {
+        this.title = title;
+        this.lecturer = lecturer;
+    }
 
     public static LectureDto toDto(Lecture lecture) {
         return new LectureDto(

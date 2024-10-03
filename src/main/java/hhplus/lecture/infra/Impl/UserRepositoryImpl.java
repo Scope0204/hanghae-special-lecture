@@ -6,12 +6,19 @@ import hhplus.lecture.infra.jpa.repository.JpaUserRepository;
 import hhplus.lecture.infra.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private final JpaUserRepository jpaUserRepository;
 
     public UserRepositoryImpl(JpaUserRepository jpaUserRepository) {
         this.jpaUserRepository = jpaUserRepository;
+    }
+
+    @Override
+    public List<Users> findAll() {
+        return jpaUserRepository.findAll();
     }
 
     @Override

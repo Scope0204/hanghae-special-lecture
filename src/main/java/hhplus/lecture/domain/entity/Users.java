@@ -25,6 +25,9 @@ public class Users {
         this.id = id;
         this.name = name;
     }
+    public Users(String name) {
+        this.name = name;
+    }
 
     public static UserDto toDto(Users user){
         return new UserDto(
