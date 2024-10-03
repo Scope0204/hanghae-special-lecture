@@ -28,6 +28,11 @@ public class LectureRepositoryImpl implements LectureRepository {
     }
 
     @Override
+    public LectureItem findWithPessimisticLockById(Long lectureId) {
+        return jpaLectureItemRepository.findWithPessimisticLockById(lectureId);
+    }
+
+    @Override
     public LectureItem findLectureItemById(Long lectureId) {
         return jpaLectureItemRepository.findById(lectureId)
                 .orElseThrow(() -> new LectureException("강의 정보를 찾을 수 없습니다."));

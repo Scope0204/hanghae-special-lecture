@@ -28,7 +28,8 @@ public class LectureService {
     }
 
     public LectureItemDto findLectureItemInfo(Long lectureId) {
-        LectureItem lectureItem = lectureRepository.findLectureItemById(lectureId);
+        //LectureItem lectureItem = lectureRepository.findLectureItemById(lectureId);
+        LectureItem lectureItem = lectureRepository.findWithPessimisticLockById(lectureId);
         return LectureItem.toDto(lectureItem);
     }
 
