@@ -19,4 +19,8 @@ public class UserRepositoryImpl implements UserRepository {
         return jpaUserRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("유저 정보를 찾을 수 없습니다."));
     }
+    @Override
+    public void save(Users user) {
+        jpaUserRepository.save(user);
+    }
 }

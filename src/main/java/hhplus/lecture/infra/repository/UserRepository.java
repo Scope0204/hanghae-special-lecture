@@ -4,4 +4,5 @@ import hhplus.lecture.domain.entity.Users;
 
 public interface UserRepository {
     Users findById(Long userId);
+    void save(Users user);
 }
