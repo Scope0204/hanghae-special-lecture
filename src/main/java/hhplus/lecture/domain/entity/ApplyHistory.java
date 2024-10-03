@@ -25,4 +25,10 @@ public class ApplyHistory {
 
     @Column(nullable = false)
     private boolean applyStatus;
+
+    public ApplyHistory(Users user, Lecture lecture, Boolean applyStatus){
+        this.user = user;
+        this.lecture = lecture;
+        this.applyStatus = applyStatus;
+    }
 }
