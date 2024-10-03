@@ -5,9 +5,12 @@ import hhplus.lecture.api.controller.response.LectureApplyResponse;
 import hhplus.lecture.application.facade.LectureApplyFacade;
 import hhplus.lecture.domain.dto.LectureApplyDto;
 import hhplus.lecture.domain.dto.LectureDto;
+import hhplus.lecture.domain.dto.LectureItemDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,18 +39,22 @@ public class LectureApplyController {
     }
 
     /**
-     * TODO
      * 날짜별로 현재 신청 가능한 특강 목록을 조회하는 API
      */
+    @GetMapping("")
+    public ResponseEntity<List<LectureItemDto>> getLectures(
+            @RequestParam LocalDate date) {
+        return ResponseEntity.ok(lectureApplyFacade.lecturesAvailable(date));
+    }
 
     /**
      * 특강 신청 완료 목록을 조회하는 API
      */
     @GetMapping("/{userId}/users")
-    public List<LectureDto> getApplyStatus(
+    public ResponseEntity<List<LectureDto>> getApplyStatus(
             @PathVariable Long userId
     ){
-        return lectureApplyFacade.lectureApplyStatus(userId);
+        return ResponseEntity.ok(lectureApplyFacade.lectureApplyStatus(userId));
     }
 
 }

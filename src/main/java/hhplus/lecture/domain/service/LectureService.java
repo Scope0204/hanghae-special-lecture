@@ -9,6 +9,10 @@ import hhplus.lecture.infra.repository.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class LectureService {
     private final LectureRepository lectureRepository;
@@ -38,5 +42,12 @@ public class LectureService {
         LectureItem lectureItem = LectureItem.fromDto(lectureItemDto);
         lectureItem.increaseCurrentEnrollmentCount(); // 현재 등록인원을 1명 추가한다
         lectureRepository.saveLectureItem(lectureItem);
+    }
+
+    public List<LectureItemDto> findAvailableLecturesByDate(LocalDate date){
+        List<LectureItem> availableLectures = lectureRepository.findAvailableLecturesByDate(date);
+        return availableLectures.stream()
+                .map(LectureItem::toDto)
+                .collect(Collectors.toList());
     }
 }

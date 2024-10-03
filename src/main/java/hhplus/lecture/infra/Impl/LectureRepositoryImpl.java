@@ -8,6 +8,9 @@ import hhplus.lecture.infra.jpa.repository.JpaLectureRepository;
 import hhplus.lecture.infra.repository.LectureRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Repository
 public class LectureRepositoryImpl implements LectureRepository {
     private final JpaLectureRepository jpaLectureRepository;
@@ -28,6 +31,11 @@ public class LectureRepositoryImpl implements LectureRepository {
     public LectureItem findLectureItemById(Long lectureId) {
         return jpaLectureItemRepository.findById(lectureId)
                 .orElseThrow(() -> new LectureException("강의 정보를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<LectureItem> findAvailableLecturesByDate(LocalDate date) {
+        return jpaLectureItemRepository.findAvailableLectures(date);
     }
 
     @Override

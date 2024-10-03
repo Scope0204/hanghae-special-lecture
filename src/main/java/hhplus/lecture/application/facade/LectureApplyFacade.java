@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -83,10 +84,21 @@ public class LectureApplyFacade {
         applyHistoryService.save(user,lecture,false);
     }
 
-    // TODO : 강의 목록 조회
     /**
-     * 수강 신청 완료 여부를 확인한.특정 userId 로 신청 완료된 특강 목록을 조회
-     * 각 항목은 특강 ID 및 이름, 강연자 정보를 담고 있어야 합니다.
+     * 날짜별로 현재 신청 가능한 특강 목록을 조회
+     * ex) 10월 1일 -> 10월 1일 자 특강 목록 조회
+     */
+    public List<LectureItemDto> lecturesAvailable(LocalDate date){
+        if (date == null) {
+            throw new IllegalArgumentException("날짜 정보를 입력해 주세요");
+        }
+        return lectureService.findAvailableLecturesByDate(date);
+    }
+
+    /**
+     * 수강 신청 완료 여부를 확인 한다
+     * 특정 userId 로 신청 완료된 특강 목록을 조회
+     * 각 항목은 특강 ID 및 이름, 강연자 정보를 담고 있어야 합니다
      */
     public List<LectureDto> lectureApplyStatus(Long userId){
         // 1. 존재하는 유저인지 검증한다.

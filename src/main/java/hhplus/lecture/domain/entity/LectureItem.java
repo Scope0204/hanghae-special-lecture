@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -18,7 +18,7 @@ public class LectureItem {
     @Column(name = "lecture_item_id")
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 
@@ -29,9 +29,9 @@ public class LectureItem {
     private int enrollmentCnt = 0;
 
     @Column(nullable = false)
-    private LocalDateTime lectureDate;
+    private LocalDate lectureDate;
 
-    public LectureItem(Long id, Lecture lecture, LocalDateTime lectureDate, int enrollmentCnt) {
+    public LectureItem(Long id, Lecture lecture, LocalDate lectureDate, int enrollmentCnt) {
         this.id = id;
         this.lecture = lecture;
         this.lectureDate = lectureDate;

@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -42,7 +42,7 @@ class LectureServiceTest {
     void testFindLectureInfo() {
         // given
         Lecture lecture = new Lecture(1L, "TDD", "허재");
-        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(),0);
+        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDate.now(),0);
         when(lectureRepository.findLectureById(1L)).thenReturn(lecture);
 
         // when
@@ -60,7 +60,7 @@ class LectureServiceTest {
     void testFindLectureItemInfo() {
         // given
         Lecture lecture = new Lecture(1L, "TDD", "허재");
-        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(),0);
+        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDate.now(),0);
         when(lectureRepository.findLectureItemById(1L)).thenReturn(lectureItem);
 
         // when
@@ -78,7 +78,7 @@ class LectureServiceTest {
     void checkCurrentEnrollmentCount_thenEnrollmentIsFull_shouldThrowException() {
         // given
         Lecture lecture = new Lecture(1L, "TDD", "허재");
-        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(),30);
+        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDate.now(),30);
         LectureItemDto lectureItemDto = LectureItem.toDto(lectureItem);
 
         // when / then

@@ -20,7 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,7 +58,7 @@ class LectureApplyFacadeTest {
 
         userDto = new UserDto(1L, "jkcho"); // 유저 정보 초기화
         lectureDto = new LectureDto(1L, "TDD", "허재"); // 강의 정보 초기화
-        lectureItemDto = new LectureItemDto(1L, Lecture.fromDto(lectureDto), LocalDateTime.now(), 30, 0); // 강의 항목 정보 초기화
+        lectureItemDto = new LectureItemDto(1L, Lecture.fromDto(lectureDto), LocalDate.now(), 30, 0); // 강의 항목 정보 초기화
     }
 
     @Test
@@ -154,5 +154,24 @@ class LectureApplyFacadeTest {
         assertThat(result).isNotNull();
         assertThat(result.size()).isEqualTo(2);
         assertThat(result).contains(Lecture.toDto(lecture1), Lecture.toDto(lecture2));
+    }
+
+    @Test
+    @DisplayName("해당 날짜에 신청가능한 특강 목록을 정상적으로 조회한다.")
+    void testFindLecturesAvailableSuccess() {
+        // given
+        LocalDate date = LocalDate.of(2024, 10, 1);
+        Lecture lecture1 = new Lecture(1L, "TDD", "허재");
+        Lecture lecture2 = new Lecture(2L, "DDD", "허헌우");
+        LectureItemDto lectureItemDto1 = new LectureItemDto(1L, lecture1, date, 30, 0);
+        LectureItemDto lectureItemDto2 = new LectureItemDto(2L, lecture2, date, 30, 0);
+        when(lectureService.findAvailableLecturesByDate(date)).thenReturn(List.of(lectureItemDto1, lectureItemDto2));
+
+        // when
+        List<LectureItemDto> result = lectureApplyFacade.lecturesAvailable(date);
+
+        // then
+        assertThat(result).hasSize(2);
+        assertThat(result).containsExactlyInAnyOrder(lectureItemDto1, lectureItemDto2);
     }
 }
