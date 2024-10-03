@@ -1,6 +1,7 @@
 package hhplus.lecture.infra.Impl;
 
 import hhplus.lecture.domain.entity.ApplyHistory;
+import hhplus.lecture.domain.entity.Users;
 import hhplus.lecture.infra.jpa.repository.JpaApplyHistoryRepository;
 import hhplus.lecture.infra.repository.ApplyHistoryRepository;
 import org.springframework.stereotype.Repository;
@@ -21,8 +22,8 @@ public class ApplyHistoryRepositoryImpl implements ApplyHistoryRepository {
     }
 
     @Override
-    public List<ApplyHistory> findByUserId(Long userId) {
-        return jpaApplyHistoryRepository.findByUserId(userId);
+    public List<ApplyHistory> findByUser(Users user) {
+        return jpaApplyHistoryRepository.findByUser(user);
     }
 
     @Override

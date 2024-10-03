@@ -6,10 +6,13 @@ import hhplus.lecture.domain.dto.LectureApplyDto;
 import hhplus.lecture.domain.dto.LectureDto;
 import hhplus.lecture.domain.dto.LectureItemDto;
 import hhplus.lecture.domain.dto.UserDto;
+import hhplus.lecture.domain.entity.ApplyHistory;
 import hhplus.lecture.domain.entity.Lecture;
+import hhplus.lecture.domain.entity.Users;
 import hhplus.lecture.domain.service.ApplyHistoryService;
 import hhplus.lecture.domain.service.LectureService;
 import hhplus.lecture.domain.service.UserService;
+import hhplus.lecture.infra.repository.ApplyHistoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,16 +21,20 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doNothing;
 
 /**
  * LectureApplyFacade 단위 테스트
  */
 class LectureApplyFacadeTest {
+    @Mock
+    private ApplyHistoryRepository applyHistoryRepository;
+
     @Mock
     private UserService userService;
 
@@ -48,6 +55,7 @@ class LectureApplyFacadeTest {
     void setUp() {
         // Mockito 애노테이션 초기화
         MockitoAnnotations.openMocks(this);
+
         userDto = new UserDto(1L, "jkcho"); // 유저 정보 초기화
         lectureDto = new LectureDto(1L, "TDD", "허재"); // 강의 정보 초기화
         lectureItemDto = new LectureItemDto(1L, Lecture.fromDto(lectureDto), LocalDateTime.now(), 30, 0); // 강의 항목 정보 초기화
@@ -118,5 +126,33 @@ class LectureApplyFacadeTest {
         // then
         assertThat(result).isFalse();
         verify(applyHistoryService).save(userDto, lectureDto, false);
+    }
+
+    @Test
+    @DisplayName("특정 userId로 신청된 특강 목록을 정상적으로 조회한다.")
+    void testLectureApplyStatusSuccess() {
+        // given
+        Long userId = 2L;
+        Users user = new Users(userId, "jkcho");
+        Lecture lecture1 = new Lecture(1L, "TDD", "허재");
+        Lecture lecture2 = new Lecture(2L, "DDD", "허헌우");
+        Lecture lecture3 = new Lecture(3L, "JPA", "타일러");
+        ApplyHistory applyHistory1 = new ApplyHistory(user, lecture1, true);
+        ApplyHistory applyHistory2 = new ApplyHistory(user, lecture2, true);
+        ApplyHistory applyHistory3 = new ApplyHistory(user, lecture3, false);
+
+        when(applyHistoryRepository.findByUser(user))
+                .thenReturn(Arrays.asList(applyHistory1, applyHistory2, applyHistory3));
+
+        // when
+        when(userService.findUserInfo(userId)).thenReturn(Users.toDto(user));
+        when(applyHistoryService.findApplyHistoryStatusTrue(user))
+                .thenReturn(Arrays.asList(Lecture.toDto(lecture1), Lecture.toDto(lecture2)));
+        // then
+        List<LectureDto> result = lectureApplyFacade.lectureApplyStatus(userId);
+        System.out.println(result);
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).contains(Lecture.toDto(lecture1), Lecture.toDto(lecture2));
     }
 }

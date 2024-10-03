@@ -1,5 +1,6 @@
 package hhplus.lecture.domain.entity;
 
+import hhplus.lecture.domain.dto.ApplyHistoryDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,5 +31,14 @@ public class ApplyHistory {
         this.user = user;
         this.lecture = lecture;
         this.applyStatus = applyStatus;
+    }
+
+    public static ApplyHistoryDto toDto(ApplyHistory applyHistory) {
+        return new ApplyHistoryDto(
+                applyHistory.getId(),
+                applyHistory.getUser(),
+                applyHistory.getLecture(),
+                applyHistory.isApplyStatus()
+        );
     }
 }

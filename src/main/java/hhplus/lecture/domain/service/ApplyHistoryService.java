@@ -10,6 +10,11 @@ import hhplus.lecture.infra.repository.ApplyHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 public class ApplyHistoryService {
@@ -18,6 +23,18 @@ public class ApplyHistoryService {
     @Autowired
     public ApplyHistoryService(ApplyHistoryRepository applyHistoryRepository) {
         this.applyHistoryRepository = applyHistoryRepository;
+    }
+    public List<LectureDto> findApplyHistoryStatusTrue(Users user){
+        List<ApplyHistory> applyHistories = applyHistoryRepository.findByUser(user);
+
+        // applyStatus가 true인 ApplyHistory만 필터링하고, ApplyHistoryDto로 변환
+        return Optional.ofNullable(applyHistories)
+                .orElse(Collections.emptyList()) // null일 경우 빈 리스트 반환
+                .stream()
+                .filter(ApplyHistory::isApplyStatus) // applyStatus가 true인 항목만 필터링
+                .map(ApplyHistory::getLecture) // ApplyHistory에서 Lecture 객체 추출
+                .map(Lecture::toDto)
+                .collect(Collectors.toList());
     }
 
     public void checkApplyStatus(Long userId, Long lectureId){

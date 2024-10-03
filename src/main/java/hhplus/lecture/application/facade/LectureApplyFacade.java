@@ -4,12 +4,15 @@ import hhplus.lecture.domain.dto.LectureApplyDto;
 import hhplus.lecture.domain.dto.LectureDto;
 import hhplus.lecture.domain.dto.LectureItemDto;
 import hhplus.lecture.domain.dto.UserDto;
+import hhplus.lecture.domain.entity.Users;
 import hhplus.lecture.domain.service.ApplyHistoryService;
 import hhplus.lecture.domain.service.LectureService;
 import hhplus.lecture.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class LectureApplyFacade {
@@ -81,5 +84,14 @@ public class LectureApplyFacade {
     }
 
     // TODO : 강의 목록 조회
-    // TODO : 수강 신청 완료 여부 확인
+    /**
+     * 수강 신청 완료 여부를 확인한.특정 userId 로 신청 완료된 특강 목록을 조회
+     * 각 항목은 특강 ID 및 이름, 강연자 정보를 담고 있어야 합니다.
+     */
+    public List<LectureDto> lectureApplyStatus(Long userId){
+        // 1. 존재하는 유저인지 검증한다.
+        UserDto user = userService.findUserInfo(userId);
+        // 2. 신청 이력에서 해당 유저가 신청한 이력을 가져온다
+        return applyHistoryService.findApplyHistoryStatusTrue(Users.fromDto(user));
+    }
 }
