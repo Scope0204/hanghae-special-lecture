@@ -42,8 +42,8 @@ class LectureServiceTest {
     void testFindLectureInfo() {
         // given
         Lecture lecture = new Lecture(1L, "TDD", "허재");
-        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(), 30, 0);
-        when(lectureRepository.findLectureItemById(1L)).thenReturn(lectureItem);
+        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(),0);
+        when(lectureRepository.findLectureById(1L)).thenReturn(lecture);
 
         // when
         LectureDto result = lectureService.findLectureInfo(1L);
@@ -52,7 +52,7 @@ class LectureServiceTest {
         assertThat(result.lectureId()).isEqualTo(1L);
         assertThat(result.title()).isEqualTo("TDD");
         assertThat(result.lecturer()).isEqualTo("허재");
-        verify(lectureRepository).findLectureItemById(1L);
+        verify(lectureRepository).findLectureById(1L);
     }
 
     @Test
@@ -60,7 +60,7 @@ class LectureServiceTest {
     void testFindLectureItemInfo() {
         // given
         Lecture lecture = new Lecture(1L, "TDD", "허재");
-        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(), 30, 0);
+        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(),0);
         when(lectureRepository.findLectureItemById(1L)).thenReturn(lectureItem);
 
         // when
@@ -78,7 +78,7 @@ class LectureServiceTest {
     void checkCurrentEnrollmentCount_thenEnrollmentIsFull_shouldThrowException() {
         // given
         Lecture lecture = new Lecture(1L, "TDD", "허재");
-        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(), 30, 30);
+        LectureItem lectureItem = new LectureItem(1L, lecture, LocalDateTime.now(),30);
         LectureItemDto lectureItemDto = LectureItem.toDto(lectureItem);
 
         // when / then
