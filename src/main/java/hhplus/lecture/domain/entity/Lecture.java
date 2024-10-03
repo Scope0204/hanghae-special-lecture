@@ -5,8 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,7 +13,8 @@ public class Lecture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long lectureId;
+    @Column(name = "lecture_id")
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -23,10 +22,10 @@ public class Lecture {
     @Column(nullable = false)
     private String lecturer;
 
-    // 등록 인원
-    @Column(nullable = false)
-    private int enrollmentCnt;
-
-    @Column(nullable = false)
-    private LocalDateTime lectureDate;
+    public Lecture(Long id, String title, String lecturer) {
+        this.id = id;
+        this.title = title;
+        this.lecturer = lecturer;
+    }
 }
+

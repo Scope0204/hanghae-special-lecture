@@ -5,21 +5,25 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "users")
-public class Users {
+@Table(name = "lecture_item")
+public class LectureItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "lecture_item_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "lecture_id", nullable = false)
+    private Lecture lecture;
 
-    public Users(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @Column(nullable = false)
+    private int capacity;
+
+    @Column(nullable = false)
+    private LocalDateTime lectureDate;
 }
