@@ -53,7 +53,7 @@ class UserServiceTest {
         String name = "jkcho";
         Users mockUser = mock(Users.class);
         // stub
-        when(mockUser.getUserId()).thenReturn(userId);
+        when(mockUser.getId()).thenReturn(userId);
         when(mockUser.getName()).thenReturn(name);
         when(userRepository.findById(userId)).thenReturn(mockUser);
 

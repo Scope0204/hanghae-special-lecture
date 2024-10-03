@@ -17,6 +17,6 @@ public class UserService {
 
     public UserDto findUserInfo(Long userId) {
         Users user = userRepository.findById(userId);
-        return new UserDto(user.getUserId(), user.getName());
+        return Users.toDto(user);
     }
 }
